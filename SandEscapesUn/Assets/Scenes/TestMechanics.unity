@@ -827,6 +827,113 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 276316080}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &501000300
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 501000301}
+  - component: {fileID: 501000302}
+  - component: {fileID: 501000303}
+  - component: {fileID: 501000304}
+  - component: {fileID: 501000305}
+  m_Layer: 0
+  m_Name: HotbarUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &501000301
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501000300}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &501000302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501000300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1e2d3c4b5a69788990a1b2c3d4e5f05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.UI.HotbarUIView
+  inventory: {fileID: 828544351}
+  hotbar: {fileID: 828544352}
+  manualSlotBindings: []
+  slotSize: {x: 72, y: 72}
+  slotSpacing: 8
+  bottomScreenPadding: 24
+  frameNormalColor: {r: 0.15, g: 0.15, b: 0.15, a: 0.92}
+  frameSelectedColor: {r: 0.95, g: 0.75, b: 0.15, a: 1}
+  hotkeyNormalColor: {r: 1, g: 1, b: 1, a: 1}
+  hotkeyFontSize: 16
+  stackFontSize: 18
+  textFont: {fileID: 0}
+--- !u!114 &501000303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501000300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08ab09cd0aef0bab0ccd0def0eab0fcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.UI.InteractionPromptUIView
+  textFont: {fileID: 0}
+  bottomPadding: 120
+  fontSize: 20
+  textColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &501000304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501000300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aab0bcd0cef0dab0ecd0fef10ab11cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.UI.InventoryPanelUIView
+  inventory: {fileID: 828544351}
+  toggleKey: 9
+  cellSize: {x: 48, y: 48}
+  columns: 6
+  panelPadding: 16
+  textFont: {fileID: 0}
+--- !u!114 &501000305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501000300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07ab08cd09ef0aab0bcd0cef0dab0ecd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.UI.LootPanelUIView
+  textFont: {fileID: 0}
+  closeKey: 27
 --- !u!1 &522190494
 GameObject:
   m_ObjectHideFlags: 0
@@ -1002,6 +1109,17 @@ GameObject:
   - component: {fileID: 828544347}
   - component: {fileID: 828544346}
   - component: {fileID: 828544345}
+  - component: {fileID: 828544351}
+  - component: {fileID: 828544352}
+  - component: {fileID: 828544353}
+  - component: {fileID: 828544354}
+  - component: {fileID: 828544355}
+  - component: {fileID: 828544356}
+  - component: {fileID: 828544357}
+  - component: {fileID: 828544358}
+  - component: {fileID: 828544359}
+  - component: {fileID: 828544360}
+  - component: {fileID: 828544361}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -1143,6 +1261,207 @@ Transform:
   - {fileID: 1622583676}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &828544351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828544344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1e2d3c4b5a69788990a1b2c3d4e5f02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.Inventory.InventorySystem
+  totalSlotCount: 24
+  hotbarSlotCount: 4
+--- !u!114 &828544352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828544344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1e2d3c4b5a69788990a1b2c3d4e5f03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.Inventory.HotbarSystem
+  inventory: {fileID: 828544351}
+  slot1Key: 49
+  slot2Key: 50
+  slot3Key: 51
+  slot4Key: 52
+  selectedHotbarIndex: 0
+--- !u!114 &828544353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828544344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1e2d3c4b5a69788990a1b2c3d4e5f01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.Interaction.CameraInteractionController
+  playerCamera: {fileID: 1622583680}
+  interactionDistance: 3
+  interactableLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  interactKey: 101
+  triggerInteraction: 1
+--- !u!114 &828544354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828544344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.Items.HeldItemPresenter
+  hotbar: {fileID: 828544352}
+  inventory: {fileID: 828544351}
+  viewCamera: {fileID: 1622583680}
+  handAnchor: {fileID: 0}
+  handLocalPosition: {x: 0.35, y: -0.28, z: 0.55}
+  handLocalEulerAngles: {x: 0, y: 15, z: 0}
+  handLocalScale: {x: 0.32, y: 0.32, z: 0.32}
+  throwKey: 103
+  throwImpulse: 7
+  throwUpwardImpulse: 1.25
+  spawnForwardOffset: 1.1
+  spawnUpwardOffset: 0.05
+  fallbackHandPrimitive: 3
+  fallbackDropPrimitive: 3
+  fallbackDropScale: 0.45
+--- !u!114 &828544355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828544344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04ab05cd06ef07ab08cd09ef0aab0bcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.Survival.PlayerStatsSystem
+--- !u!114 &828544356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828544344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bab0ccd0def0eab0fcd10ff11ab12cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.Items.ConsumableUseController
+  inventory: {fileID: 828544351}
+  hotbar: {fileID: 828544352}
+  useKey: 102
+--- !u!114 &828544357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828544344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cab0dcd0eef0fab10cd11ff12ab13cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.Items.InventoryDropController
+  inventory: {fileID: 828544351}
+  hotbar: {fileID: 828544352}
+  viewCamera: {fileID: 1622583680}
+  dropKey: 120
+  forwardOffset: 0.65
+  upwardOffset: 0.35
+  forwardImpulse: 1.25
+  upwardImpulse: 0.35
+  fallbackPrimitive: 3
+  fallbackScale: 0.45
+--- !u!114 &828544358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828544344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09ab0acd0bef0cab0dcd0eef0fab10cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.UI.InteractionPromptController
+  interaction: {fileID: 828544353}
+  promptView: {fileID: 501000303}
+  defaultInteractPrompt: E - Interact
+--- !u!114 &828544359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828544344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.UI.PlayerStatsHudView
+  stats: {fileID: 828544355}
+  hungerFill: {fileID: 0}
+  thirstFill: {fileID: 0}
+  sanityFill: {fileID: 0}
+  healthFill: {fileID: 0}
+  barSize: {x: 220, y: 18}
+  rowSpacing: 6
+  screenPadding: {x: 24, y: 24}
+  sortOrder: 95
+  hungerColor: {r: 0.85, g: 0.55, b: 0.2, a: 0.95}
+  thirstColor: {r: 0.25, g: 0.55, b: 0.95, a: 0.95}
+  sanityColor: {r: 0.65, g: 0.35, b: 0.85, a: 0.95}
+  healthColor: {r: 0.35, g: 0.85, b: 0.35, a: 0.95}
+--- !u!114 &828544360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828544344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.UI.PlayerStatsWarningBanner
+  stats: {fileID: 828544355}
+  bannerText: {fileID: 0}
+  warningColor: {r: 1, g: 0.45, b: 0.35, a: 1}
+  screenPadding: {x: 24, y: 120}
+  sortOrder: 96
+  fontSize: 20
+--- !u!114 &828544361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828544344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.Survival.PlayerDeathHandler
+  stats: {fileID: 828544355}
+  reloadActiveScene: 1
+  sceneNameOverride: TestMechanics
+  reloadDelaySeconds: 0
 --- !u!1 &949360930
 GameObject:
   m_ObjectHideFlags: 0
@@ -1367,50 +1686,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1170839182}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1604209014
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1604209015}
-  - component: {fileID: 1604209016}
-  m_Layer: 0
-  m_Name: SceneManagerObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1604209015
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1604209014}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.36294, y: 0, z: -5.87969}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1604209016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1604209014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1689229c59f2e3e4f951d421f76f2b6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SceneSwitcher
 --- !u!1 &1622583675
 GameObject:
   m_ObjectHideFlags: 0
@@ -1426,7 +1701,7 @@ GameObject:
   - component: {fileID: 1622583677}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1576,11 +1851,11 @@ GameObject:
   - component: {fileID: 1632286579}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &1632286579
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1767,7 +2042,64 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1949983381}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &2016351099
+--- !u!1001 &7155714331711476286
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3808467020632380500, guid: d0fbdbf780df5fb489c44ef0f1ccaf03, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3808467020632380500, guid: d0fbdbf780df5fb489c44ef0f1ccaf03, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3808467020632380500, guid: d0fbdbf780df5fb489c44ef0f1ccaf03, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3808467020632380500, guid: d0fbdbf780df5fb489c44ef0f1ccaf03, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3808467020632380500, guid: d0fbdbf780df5fb489c44ef0f1ccaf03, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3808467020632380500, guid: d0fbdbf780df5fb489c44ef0f1ccaf03, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3808467020632380500, guid: d0fbdbf780df5fb489c44ef0f1ccaf03, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3808467020632380500, guid: d0fbdbf780df5fb489c44ef0f1ccaf03, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3808467020632380500, guid: d0fbdbf780df5fb489c44ef0f1ccaf03, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3808467020632380500, guid: d0fbdbf780df5fb489c44ef0f1ccaf03, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7027979487449219086, guid: d0fbdbf780df5fb489c44ef0f1ccaf03, type: 3}
+      propertyPath: m_Name
+      value: WorldPickup_Stone
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d0fbdbf780df5fb489c44ef0f1ccaf03, type: 3}
+--- !u!1 &501000700
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1775,52 +2107,145 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2016351101}
-  - component: {fileID: 2016351100}
+  - component: {fileID: 501000701}
+  - component: {fileID: 501000702}
+  - component: {fileID: 501000703}
+  - component: {fileID: 501000704}
+  - component: {fileID: 501000705}
   m_Layer: 0
-  m_Name: SceneManagerObject (1)
+  m_Name: LootCrate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2016351100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2016351099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1689229c59f2e3e4f951d421f76f2b6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SceneSwitcher
---- !u!4 &2016351101
+--- !u!4 &501000701
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2016351099}
+  m_GameObject: {fileID: 501000700}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.36294, y: 0, z: -5.87969}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -2.5, y: 0.5, z: -4.5}
+  m_LocalScale: {x: 1.2, y: 0.8, z: 1.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &501000702
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501000700}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &501000703
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501000700}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: c0377240963c3c94da0a41284affeeb9, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &501000704
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501000700}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &501000705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501000700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06ab07cd08ef09ab0acd0bef0cab0dcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.Items.LootContainer
+  contents:
+  - item: {fileID: 11400000, guid: cccc1111dddd2222eeee3333ffff4444, type: 2}
+    quantity: 2
+  - item: {fileID: 11400000, guid: dddd1111eeee2222ffff3333aaaa4444, type: 2}
+    quantity: 1
+  - item: {fileID: 11400000, guid: eeee1111ffff2222aaaa3333bbbb4444, type: 2}
+    quantity: 3
+  lootPanel: {fileID: 501000305}
+  promptLoot: E - Loot
+  takeAllOnInteractWithoutPanel: 0
+  destroyWhenEmpty: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1632286581}
   - {fileID: 107128282}
-  - {fileID: 1604209015}
-  - {fileID: 2016351101}
   - {fileID: 755469011}
   - {fileID: 149554884}
   - {fileID: 12402945}
   - {fileID: 828544350}
   - {fileID: 63620566}
+  - {fileID: 501000301}
+  - {fileID: 7155714331711476286}
+  - {fileID: 501000701}
