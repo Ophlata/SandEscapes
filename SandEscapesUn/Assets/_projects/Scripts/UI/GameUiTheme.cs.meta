@@ -3,7 +3,23 @@ guid: e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - neutralQuadSprite: {instanceID: 0}
+  - uiFont: {instanceID: 0}
+  - hotbarSlotFrameSprite: {instanceID: 0}
+  - hotbarIconPlaceholderSprite: {instanceID: 0}
+  - statBarTrackSprite: {instanceID: 0}
+  - statBarFillSprite: {instanceID: 0}
+  - statIconHunger: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  - statIconThirst: {instanceID: 0}
+  - statIconSanity: {instanceID: 0}
+  - statIconHealth: {instanceID: 0}
+  - warningBannerBackgroundSprite: {instanceID: 0}
+  - interactionPromptBackgroundSprite: {instanceID: 0}
+  - inventoryPanelBackgroundSprite: {instanceID: 0}
+  - inventoryCellFrameSprite: {instanceID: 0}
+  - lootPanelBackgroundSprite: {instanceID: 0}
+  - lootButtonSprite: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

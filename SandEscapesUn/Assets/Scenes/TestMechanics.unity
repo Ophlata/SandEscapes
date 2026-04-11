@@ -588,6 +588,66 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 145812250}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &147636481
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 32ba292b9ed21d44e958703b5452984d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.06951
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32ba292b9ed21d44e958703b5452984d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.15986
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32ba292b9ed21d44e958703b5452984d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.7877
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32ba292b9ed21d44e958703b5452984d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32ba292b9ed21d44e958703b5452984d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32ba292b9ed21d44e958703b5452984d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32ba292b9ed21d44e958703b5452984d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32ba292b9ed21d44e958703b5452984d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32ba292b9ed21d44e958703b5452984d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32ba292b9ed21d44e958703b5452984d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 32ba292b9ed21d44e958703b5452984d, type: 3}
+      propertyPath: m_Name
+      value: Character
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 32ba292b9ed21d44e958703b5452984d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 856871772}
+  m_SourcePrefab: {fileID: 100100000, guid: 32ba292b9ed21d44e958703b5452984d, type: 3}
 --- !u!1 &149554881
 GameObject:
   m_ObjectHideFlags: 0
@@ -874,9 +934,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1e2d3c4b5a69788990a1b2c3d4e5f05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.UI.HotbarUIView
+  theme: {fileID: 0}
   inventory: {fileID: 828544351}
   hotbar: {fileID: 828544352}
   manualSlotBindings: []
+  hotbarSlotFrameOverride: {fileID: 0}
+  hotbarIconPlaceholderOverride: {fileID: 0}
   slotSize: {x: 72, y: 72}
   slotSpacing: 8
   bottomScreenPadding: 24
@@ -898,7 +961,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08ab09cd0aef0bab0ccd0def0eab0fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.UI.InteractionPromptUIView
+  theme: {fileID: 0}
   textFont: {fileID: 0}
+  promptBackgroundOverride: {fileID: 0}
+  promptBackgroundImageType: 1
   bottomPadding: 120
   fontSize: 20
   textColor: {r: 1, g: 1, b: 1, a: 1}
@@ -914,11 +980,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aab0bcd0cef0dab0ecd0fef10ab11cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.UI.InventoryPanelUIView
+  theme: {fileID: 0}
   inventory: {fileID: 828544351}
   toggleKey: 9
   cellSize: {x: 48, y: 48}
   columns: 6
   panelPadding: 16
+  referenceResolution: {x: 1920, y: 1080}
+  canvasSortOrder: 180
+  panelBackgroundSprite: {fileID: 0}
+  panelImageType: 0
+  cellFrameSprite: {fileID: 0}
+  cellImageType: 0
+  panelBackgroundColor: {r: 0.06, g: 0.06, b: 0.08, a: 0.94}
+  cellFrameColor: {r: 0.2, g: 0.2, b: 0.22, a: 1}
   textFont: {fileID: 0}
 --- !u!114 &501000305
 MonoBehaviour:
@@ -932,8 +1007,159 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07ab08cd09ef0aab0bcd0cef0dab0ecd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.UI.LootPanelUIView
+  theme: {fileID: 0}
   textFont: {fileID: 0}
   closeKey: 27
+  alternateCloseKey: 113
+  panelSize: {x: 420, y: 320}
+  referenceResolution: {x: 1920, y: 1080}
+  canvasSortOrder: 200
+  panelBackgroundColor: {r: 0.08, g: 0.08, b: 0.1, a: 0.95}
+  buttonColor: {r: 0.25, g: 0.25, b: 0.28, a: 1}
+  panelBackgroundSprite: {fileID: 0}
+  panelImageType: 0
+  buttonSprite: {fileID: 0}
+  buttonImageType: 0
+  titleFontSize: 22
+  bodyFontSize: 16
+  buttonFontSize: 18
+  bodyMargins: {x: 16, y: 8}
+--- !u!1 &501000700
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 501000701}
+  - component: {fileID: 501000702}
+  - component: {fileID: 501000703}
+  - component: {fileID: 501000704}
+  - component: {fileID: 501000705}
+  m_Layer: 0
+  m_Name: LootCrate
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &501000701
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501000700}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.5, y: 0.5, z: -4.5}
+  m_LocalScale: {x: 1.2, y: 0.8, z: 1.2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &501000702
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501000700}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &501000703
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501000700}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: c0377240963c3c94da0a41284affeeb9, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &501000704
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501000700}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &501000705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501000700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06ab07cd08ef09ab0acd0bef0cab0dcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.Items.LootContainer
+  contents:
+  - item: {fileID: 11400000, guid: cccc1111dddd2222eeee3333ffff4444, type: 2}
+    quantity: 2
+  - item: {fileID: 11400000, guid: dddd1111eeee2222ffff3333aaaa4444, type: 2}
+    quantity: 1
+  - item: {fileID: 11400000, guid: eeee1111ffff2222aaaa3333bbbb4444, type: 2}
+    quantity: 3
+  lootPanel: {fileID: 501000305}
+  promptLoot: E - Loot
+  takeAllOnInteractWithoutPanel: 0
+  destroyWhenEmpty: 1
 --- !u!1 &522190494
 GameObject:
   m_ObjectHideFlags: 0
@@ -1164,7 +1390,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b3c65801b2c3b6478ae9e93b3fb62ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveSpeed: 5
+  walkSpeed: 5
+  runSpeed: 9
+  gravity: -20
+  jumpHeight: 2
+  coyoteTime: 0.15
 --- !u!136 &828544347
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1254,7 +1484,7 @@ Transform:
   m_GameObject: {fileID: 828544344}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.7867, y: 1.38, z: -3.46468}
+  m_LocalPosition: {x: -4.5, y: 1.15, z: 0.59}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1351,6 +1581,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04ab05cd06ef07ab08cd09ef0aab0bcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.Survival.PlayerStatsSystem
+  hunger:
+    maxValue: 100
+    currentValue: 85
+    decayPerSecond: 0.08
+    restoreRate: 1
+    criticalThreshold: 22
+    dangerThreshold: 10
+  thirst:
+    maxValue: 100
+    currentValue: 85
+    decayPerSecond: 0.18
+    restoreRate: 1
+    criticalThreshold: 22
+    dangerThreshold: 10
+  sanity:
+    maxValue: 100
+    currentValue: 100
+    decayPerSecond: 0.04
+    restoreRate: 1
+    criticalThreshold: 25
+    dangerThreshold: 12
+  health:
+    maxValue: 100
+    currentValue: 100
+    decayPerSecond: 0
+    restoreRate: 1
+    criticalThreshold: 25
+    dangerThreshold: 12
+  exposure:
+    maxStress: 100
+    currentStress: 0
+    driftTowardsTargetPerSecond: 3
+    ambientStressTarget: 0
+    criticalThreshold: 65
+    dangerThreshold: 82
+  crossRules:
+    healthDamagePerSecondFromCriticalThirst: 5
+    healthDamagePerSecondFromCriticalHunger: 1.75
+    extraThirstDecayFromMaxStress: 0.85
+    healthDamagePerSecondFromDangerTemperature: 2.5
+    extraSanityDecayPerBadCondition: 0.35
+    passiveSanityRestorePerSecondInSafeZone: 1.25
+    globalDecayMultiplierWhenSanityCritical: 1.35
+  inSafeZone: 0
+  pauseSimulationWhenDead: 1
+  enableDebugLogs: 0
+  freezeSimulation: 0
+  debugSimulationSpeed: 1
 --- !u!114 &828544356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1415,12 +1693,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.UI.PlayerStatsHudView
+  theme: {fileID: 0}
   stats: {fileID: 828544355}
   hungerFill: {fileID: 0}
   thirstFill: {fileID: 0}
   sanityFill: {fileID: 0}
   healthFill: {fileID: 0}
+  statBarTrackOverride: {fileID: 0}
+  statBarFillOverride: {fileID: 0}
+  statIconHungerOverride: {fileID: 0}
+  statIconThirstOverride: {fileID: 0}
+  statIconSanityOverride: {fileID: 0}
+  statIconHealthOverride: {fileID: 0}
+  statLabelFontOverride: {fileID: 0}
+  showStatTextLabels: 1
   barSize: {x: 220, y: 18}
+  iconColumnWidth: 32
   rowSpacing: 6
   screenPadding: {x: 24, y: 24}
   sortOrder: 95
@@ -1428,6 +1716,9 @@ MonoBehaviour:
   thirstColor: {r: 0.25, g: 0.55, b: 0.95, a: 0.95}
   sanityColor: {r: 0.65, g: 0.35, b: 0.85, a: 0.95}
   healthColor: {r: 0.35, g: 0.85, b: 0.35, a: 0.95}
+  statLabelColor: {r: 1, g: 1, b: 1, a: 0.92}
+  statBarBackgroundTint: {r: 0.08, g: 0.08, b: 0.08, a: 0.75}
+  statBarTrackImageType: 0
 --- !u!114 &828544360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1440,8 +1731,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.UI.PlayerStatsWarningBanner
+  theme: {fileID: 0}
   stats: {fileID: 828544355}
   bannerText: {fileID: 0}
+  warningBackgroundOverride: {fileID: 0}
+  warningBackgroundImageType: 1
+  fontOverride: {fileID: 0}
   warningColor: {r: 1, g: 0.45, b: 0.35, a: 1}
   screenPadding: {x: 24, y: 120}
   sortOrder: 96
@@ -1462,6 +1757,33 @@ MonoBehaviour:
   reloadActiveScene: 1
   sceneNameOverride: TestMechanics
   reloadDelaySeconds: 0
+--- !u!1 &856871771 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 32ba292b9ed21d44e958703b5452984d, type: 3}
+  m_PrefabInstance: {fileID: 147636481}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &856871772
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 856871771}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4cb5077a31dbae4428658b3401ca9cf9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &949360930
 GameObject:
   m_ObjectHideFlags: 0
@@ -2099,142 +2421,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0fbdbf780df5fb489c44ef0f1ccaf03, type: 3}
---- !u!1 &501000700
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 501000701}
-  - component: {fileID: 501000702}
-  - component: {fileID: 501000703}
-  - component: {fileID: 501000704}
-  - component: {fileID: 501000705}
-  m_Layer: 0
-  m_Name: LootCrate
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &501000701
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 501000700}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.5, y: 0.5, z: -4.5}
-  m_LocalScale: {x: 1.2, y: 0.8, z: 1.2}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &501000702
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 501000700}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &501000703
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 501000700}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: c0377240963c3c94da0a41284affeeb9, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &501000704
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 501000700}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &501000705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 501000700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06ab07cd08ef09ab0acd0bef0cab0dcd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.Items.LootContainer
-  contents:
-  - item: {fileID: 11400000, guid: cccc1111dddd2222eeee3333ffff4444, type: 2}
-    quantity: 2
-  - item: {fileID: 11400000, guid: dddd1111eeee2222ffff3333aaaa4444, type: 2}
-    quantity: 1
-  - item: {fileID: 11400000, guid: eeee1111ffff2222aaaa3333bbbb4444, type: 2}
-    quantity: 3
-  lootPanel: {fileID: 501000305}
-  promptLoot: E - Loot
-  takeAllOnInteractWithoutPanel: 0
-  destroyWhenEmpty: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2249,3 +2435,4 @@ SceneRoots:
   - {fileID: 501000301}
   - {fileID: 7155714331711476286}
   - {fileID: 501000701}
+  - {fileID: 147636481}
