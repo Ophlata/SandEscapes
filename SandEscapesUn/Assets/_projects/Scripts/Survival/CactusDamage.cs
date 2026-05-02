@@ -21,20 +21,24 @@ namespace _projects.Scripts.Survival
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!other.CompareTag(playerTag))
-                return;
-
-            PlayerStatsSystem stats = GetStats(other);
-
-            if (stats == null || stats.IsDead)
-                return;
-
-            HitPlayer(other, stats);
-            _nextDamageTime[stats] = Time.time + damageInterval;
+            TryDamage(other);
         }
 
         private void OnTriggerStay(Collider other)
         {
+            TryDamage(other);
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            PlayerStatsSystem stats = GetStats(other);
+
+            if (stats != null && _nextDamageTime.ContainsKey(stats))
+                _nextDamageTime.Remove(stats);
+        }
+
+        private void TryDamage(Collider other)
+        {
             if (!other.CompareTag(playerTag))
                 return;
 
@@ -43,29 +47,11 @@ namespace _projects.Scripts.Survival
             if (stats == null || stats.IsDead)
                 return;
 
-            if (!_nextDamageTime.ContainsKey(stats))
-            {
-                HitPlayer(other, stats);
-                _nextDamageTime[stats] = Time.time + damageInterval;
-                return;
-            }
-
-            if (Time.time >= _nextDamageTime[stats])
-            {
-                HitPlayer(other, stats);
-                _nextDamageTime[stats] = Time.time + damageInterval;
-            }
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            if (!other.CompareTag(playerTag))
+            if (_nextDamageTime.ContainsKey(stats) && Time.time < _nextDamageTime[stats])
                 return;
 
-            PlayerStatsSystem stats = GetStats(other);
-
-            if (stats != null && _nextDamageTime.ContainsKey(stats))
-                _nextDamageTime.Remove(stats);
+            HitPlayer(other, stats);
+            _nextDamageTime[stats] = Time.time + damageInterval;
         }
 
         private PlayerStatsSystem GetStats(Collider other)
