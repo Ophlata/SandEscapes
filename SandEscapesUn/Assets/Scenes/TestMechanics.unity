@@ -21976,6 +21976,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: EA04_Env_Stone_Gray_01b_PRE (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4147693926395130, guid: 72bcc8f6ef07c504d9e92d3757f71567, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4147693926395130, guid: 72bcc8f6ef07c504d9e92d3757f71567, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.38
+      objectReference: {fileID: 0}
     - target: {fileID: 4887439505414038, guid: 72bcc8f6ef07c504d9e92d3757f71567, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.6871643
