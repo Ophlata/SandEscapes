@@ -3923,7 +3923,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88dad7cea819d344592e63e21c09fa0b, type: 3}
-<<<<<<< HEAD
 --- !u!1001 &632310154
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3981,8 +3980,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e8ac719118a22c24783a957ea0441708, type: 3}
-=======
->>>>>>> parent of c0c9ae6 (NPC add)
 --- !u!1001 &648313409
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17870,8 +17867,5 @@ SceneRoots:
   - {fileID: 1072679299}
   - {fileID: 1689606974}
   - {fileID: 787413235}
-<<<<<<< HEAD
   - {fileID: 632310154}
   - {fileID: 720042365}
-=======
->>>>>>> parent of c0c9ae6 (NPC add)
