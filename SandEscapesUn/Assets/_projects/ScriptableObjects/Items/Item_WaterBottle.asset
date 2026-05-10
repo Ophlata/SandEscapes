@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.Items.ItemData
   itemId: water_bottle
   itemName: Water Bottle
-  icon: {fileID: 0}
+  icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   description: Drinking water; restores thirst.
-  maxStack: 5
+  maxStack: 1
   itemType: 1
-  worldPickupPrefab: {fileID: 0}
+  worldPickupPrefab: {fileID: 919132149155446097, guid: d4e071eda68d0ff44b045659a4289ad0, type: 3}
   useEffects:
   - {fileID: 11400000, guid: aaaa1111bbbb2222cccc3333dddd4444, type: 2}

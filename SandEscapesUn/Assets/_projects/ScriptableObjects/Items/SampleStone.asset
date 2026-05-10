@@ -16,7 +16,7 @@ MonoBehaviour:
   itemName: Stone
   icon: {fileID: 0}
   description: Sample stackable resource for testing pickup and hotbar UI.
-  maxStack: 16
+  maxStack: 2
   itemType: 0
   worldPickupPrefab: {fileID: 7027979487449219086, guid: d0fbdbf780df5fb489c44ef0f1ccaf03, type: 3}
   useEffects: []
