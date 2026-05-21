@@ -1,295 +1,151 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-/// <summary>
-/// NPC-преследователь игрока.
-/// Требования: NavMeshAgent на объекте, запечённый NavMesh на сцене.
-/// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyChaser : MonoBehaviour
 {
-    // ──────────────────────────────────────────
-    // Настройки в Inspector
-    // ──────────────────────────────────────────
-
     [Header("Цель")]
-    [Tooltip("Перетащи Transform игрока сюда, или оставь пустым — найдёт по тегу 'Player'")]
     public Transform player;
 
-    [Header("Обнаружение")]
-    [Tooltip("Радиус, в котором NPC замечает игрока")]
+    [Header("Радиусы")]
     public float detectionRadius = 15f;
+    public float attackRadius = 2f;
 
-    [Tooltip("Угол обзора (влево/вправо от взгляда NPC)")]
-    [Range(0f, 180f)]
-    public float fieldOfViewAngle = 90f;
-
-    [Tooltip("Слой препятствий для проверки прямой видимости")]
-    public LayerMask obstacleMask;
-
-    [Header("Погоня")]
-    public float chaseSpeed = 5f;
+    [Header("Скорость")]
     public float patrolSpeed = 2f;
+    public float chaseSpeed = 5f;
 
-    [Tooltip("Дистанция, с которой NPC останавливается рядом с игроком")]
-    public float stoppingDistance = 1.5f;
+    [Header("Атака")]
+    public int attackDamage = 10;
+    public float attackCooldown = 1.5f;
 
-    [Header("Патрулирование")]
-    [Tooltip("Точки патрулирования. Если пусто — NPC стоит на месте")]
+    [Header("Патруль")]
     public Transform[] patrolPoints;
     public float waitAtPointTime = 2f;
 
-    [Header("Дебаг")]
-    public bool drawGizmos = true;
-
-    // ──────────────────────────────────────────
-    // Приватные поля
-    // ──────────────────────────────────────────
-
     private NavMeshAgent agent;
-    private Animator animator;          // опционально
-    private bool hasAnimator;
+    private Animator animator;
+    private HealthSystem playerHealth;
 
-    private enum State { Patrol, Chase, Search }
-    private State currentState = State.Patrol;
+    private int patrolIndex;
+    private float waitTimer;
+    private float attackTimer;
 
-    private int currentPatrolIndex = 0;
-    private float waitTimer = 0f;
-    private bool isWaiting = false;
+    private enum State { Patrol, Chase, Attack }
+    private State state = State.Patrol;
 
-    private Vector3 lastKnownPosition;
-    private float searchTimer = 0f;
-    private float searchDuration = 5f;  // сколько секунд ищем после потери игрока
-
-    // ──────────────────────────────────────────
-    // Unity lifecycle
-    // ──────────────────────────────────────────
-
-    private void Awake()
+    void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
-        hasAnimator = animator != null;
+        animator = GetComponentInChildren<Animator>();
 
         if (player == null)
         {
-            GameObject found = GameObject.FindWithTag("Player");
-            if (found != null) player = found.transform;
+            GameObject foundPlayer = GameObject.FindGameObjectWithTag("Player");
+            if (foundPlayer != null)
+                player = foundPlayer.transform;
         }
+
+        if (player != null)
+            playerHealth = player.GetComponent<HealthSystem>();
     }
 
-    private void Start()
+    void Start()
     {
         agent.speed = patrolSpeed;
-        agent.stoppingDistance = stoppingDistance;
 
-        // Ждём, пока агент встанет на NavMesh, затем идём к первой точке
         if (patrolPoints.Length > 0)
-            StartCoroutine(WaitForNavMeshThenStart());
+            agent.SetDestination(patrolPoints[0].position);
     }
 
-    private System.Collections.IEnumerator WaitForNavMeshThenStart()
+    void Update()
     {
-        // Ждём до двух секунд, пока агент окажется на NavMesh
-        float timeout = 2f;
-        while (!agent.isOnNavMesh && timeout > 0f)
-        {
-            timeout -= Time.deltaTime;
-            yield return null;
-        }
+        if (player == null) return;
 
-        if (agent.isOnNavMesh)
-            GoToPatrolPoint(0);
+        attackTimer -= Time.deltaTime;
+
+        float distance = Vector3.Distance(transform.position, player.position);
+
+        if (distance <= attackRadius)
+            state = State.Attack;
+        else if (distance <= detectionRadius)
+            state = State.Chase;
         else
-            Debug.LogWarning($"[EnemyChaser] {name}: агент не попал на NavMesh! " +
-                             "Убедись что объект стоит на запечённой поверхности.", this);
-    }
+            state = State.Patrol;
 
-    private void Update()
-    {
-        bool canSeePlayer = CanSeePlayer();
-
-        switch (currentState)
+        switch (state)
         {
             case State.Patrol:
-                HandlePatrol();
-                if (canSeePlayer) EnterChase();
+                Patrol();
                 break;
 
             case State.Chase:
-                HandleChase(canSeePlayer);
+                Chase();
                 break;
 
-            case State.Search:
-                HandleSearch(canSeePlayer);
+            case State.Attack:
+                Attack();
                 break;
         }
 
         UpdateAnimator();
     }
 
-    // ──────────────────────────────────────────
-    // Состояния
-    // ──────────────────────────────────────────
-
-    private void HandlePatrol()
+    void Patrol()
     {
-        if (patrolPoints.Length == 0) return;
+        agent.isStopped = false;
+        agent.speed = patrolSpeed;
 
-        if (isWaiting)
+        if (patrolPoints.Length == 0)
         {
-            waitTimer -= Time.deltaTime;
-            if (waitTimer <= 0f)
-            {
-                isWaiting = false;
-                currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
-                GoToPatrolPoint(currentPatrolIndex);
-            }
+            agent.SetDestination(transform.position);
             return;
         }
 
-        // Достигли точки?
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
-            isWaiting = true;
-            waitTimer = waitAtPointTime;
+            waitTimer += Time.deltaTime;
+
+            if (waitTimer >= waitAtPointTime)
+            {
+                waitTimer = 0f;
+                patrolIndex = (patrolIndex + 1) % patrolPoints.Length;
+                agent.SetDestination(patrolPoints[patrolIndex].position);
+            }
         }
     }
 
-    private void HandleChase(bool canSee)
+    void Chase()
     {
-        if (!agent.isOnNavMesh) return;
-
-        if (canSee)
-        {
-            lastKnownPosition = player.position;
-            agent.SetDestination(player.position);
-        }
-        else
-        {
-            // Потеряли из виду — идём в последнюю известную позицию
-            currentState = State.Search;
-            searchTimer = searchDuration;
-            agent.SetDestination(lastKnownPosition);
-        }
-    }
-
-    private void HandleSearch(bool canSee)
-    {
-        if (canSee)
-        {
-            EnterChase();
-            return;
-        }
-
-        searchTimer -= Time.deltaTime;
-
-        // Достигли последней известной точки или истёк таймер
-        bool reachedSpot = !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance;
-
-        if (reachedSpot || searchTimer <= 0f)
-        {
-            // Возвращаемся к патрулированию
-            currentState = State.Patrol;
-            agent.speed = patrolSpeed;
-            isWaiting = false;
-            if (patrolPoints.Length > 0)
-                GoToPatrolPoint(currentPatrolIndex);
-        }
-    }
-
-    // ──────────────────────────────────────────
-    // Вспомогательные методы
-    // ──────────────────────────────────────────
-
-    private void EnterChase()
-    {
-        currentState = State.Chase;
+        agent.isStopped = false;
         agent.speed = chaseSpeed;
-        isWaiting = false;
+        agent.SetDestination(player.position);
     }
 
-    private void GoToPatrolPoint(int index)
+    void Attack()
     {
-        if (patrolPoints.Length == 0 || !agent.isOnNavMesh) return;
-        agent.speed = patrolSpeed;
-        agent.SetDestination(patrolPoints[index].position);
-    }
+        agent.isStopped = true;
 
-    /// <summary>
-    /// Проверяет, видит ли NPC игрока (дистанция + угол обзора + препятствия).
-    /// </summary>
-    private bool CanSeePlayer()
-    {
-        if (player == null) return false;
+        Vector3 lookPos = new Vector3(player.position.x, transform.position.y, player.position.z);
+        transform.LookAt(lookPos);
 
-        Vector3 toPlayer = player.position - transform.position;
-        float distance = toPlayer.magnitude;
-
-        if (distance > detectionRadius) return false;
-
-        float angle = Vector3.Angle(transform.forward, toPlayer);
-        if (angle > fieldOfViewAngle) return false;
-
-        // Проверка прямой видимости (raycast)
-        if (Physics.Raycast(transform.position + Vector3.up * 1f,
-                            toPlayer.normalized,
-                            out RaycastHit hit,
-                            distance,
-                            obstacleMask))
+        if (attackTimer <= 0f)
         {
-            // Луч упёрся в препятствие до игрока
-            return false;
-        }
+            attackTimer = attackCooldown;
 
-        return true;
+            if (animator != null)
+                animator.SetTrigger("Attack");
+
+            if (playerHealth != null)
+                playerHealth.TakeDamage(attackDamage);
+        }
     }
 
-    private void UpdateAnimator()
+    void UpdateAnimator()
     {
-        if (!hasAnimator) return;
+        if (animator == null) return;
 
         float speed = agent.velocity.magnitude;
         animator.SetFloat("Speed", speed);
-        animator.SetBool("IsChasing", currentState == State.Chase);
-    }
-
-    // ──────────────────────────────────────────
-    // Gizmos — отображение в редакторе
-    // ──────────────────────────────────────────
-
-    private void OnDrawGizmosSelected()
-    {
-        if (!drawGizmos) return;
-
-        // Радиус обнаружения
-        Gizmos.color = new Color(1f, 1f, 0f, 0.2f);
-        Gizmos.DrawSphere(transform.position, detectionRadius);
-
-        // Угол обзора
-        Gizmos.color = Color.yellow;
-        Vector3 forward = Application.isPlaying ? transform.forward : transform.forward;
-        Quaternion leftRot  = Quaternion.AngleAxis(-fieldOfViewAngle, Vector3.up);
-        Quaternion rightRot = Quaternion.AngleAxis( fieldOfViewAngle, Vector3.up);
-        Gizmos.DrawRay(transform.position, leftRot  * forward * detectionRadius);
-        Gizmos.DrawRay(transform.position, rightRot * forward * detectionRadius);
-
-        // Линия к игроку при погоне
-        if (Application.isPlaying && currentState == State.Chase && player != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(transform.position, player.position);
-        }
-
-        // Точки патрулирования
-        if (patrolPoints == null) return;
-        Gizmos.color = Color.cyan;
-        for (int i = 0; i < patrolPoints.Length; i++)
-        {
-            if (patrolPoints[i] == null) continue;
-            Gizmos.DrawSphere(patrolPoints[i].position, 0.3f);
-            if (i + 1 < patrolPoints.Length && patrolPoints[i + 1] != null)
-                Gizmos.DrawLine(patrolPoints[i].position, patrolPoints[i + 1].position);
-        }
     }
 }
