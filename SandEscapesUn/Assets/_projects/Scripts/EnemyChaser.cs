@@ -7,32 +7,31 @@ public class EnemyChaser : MonoBehaviour
     [Header("Цель")]
     public Transform player;
 
-    [Header("Радиусы")]
+    [Header("Обнаружение")]
     public float detectionRadius = 15f;
-    public float attackRadius = 2f;
+    [Range(0f, 180f)]
+    public float fieldOfViewAngle = 90f;
+    public LayerMask obstacleMask;
 
     [Header("Скорость")]
     public float patrolSpeed = 2f;
     public float chaseSpeed = 5f;
 
-    [Header("Атака")]
-    public int attackDamage = 10;
-    public float attackCooldown = 1.5f;
-
     [Header("Патруль")]
     public Transform[] patrolPoints;
     public float waitAtPointTime = 2f;
 
+    [Header("Скример / проигрыш")]
+    public GameObject screamerPanel;
+    public AudioSource screamerSound;
+    public bool stopTimeOnScreamer = true;
+
     private NavMeshAgent agent;
     private Animator animator;
-    private HealthSystem playerHealth;
 
     private int patrolIndex;
     private float waitTimer;
-    private float attackTimer;
-
-    private enum State { Patrol, Chase, Attack }
-    private State state = State.Patrol;
+    private bool gameEnded = false;
 
     void Awake()
     {
@@ -46,8 +45,8 @@ public class EnemyChaser : MonoBehaviour
                 player = foundPlayer.transform;
         }
 
-        if (player != null)
-            playerHealth = player.GetComponent<HealthSystem>();
+        if (screamerPanel != null)
+            screamerPanel.SetActive(false);
     }
 
     void Start()
@@ -60,35 +59,18 @@ public class EnemyChaser : MonoBehaviour
 
     void Update()
     {
-        if (player == null) return;
+        if (gameEnded || player == null) return;
 
-        attackTimer -= Time.deltaTime;
-
-        float distance = Vector3.Distance(transform.position, player.position);
-
-        if (distance <= attackRadius)
-            state = State.Attack;
-        else if (distance <= detectionRadius)
-            state = State.Chase;
-        else
-            state = State.Patrol;
-
-        switch (state)
+        if (CanSeePlayer())
         {
-            case State.Patrol:
-                Patrol();
-                break;
-
-            case State.Chase:
-                Chase();
-                break;
-
-            case State.Attack:
-                Attack();
-                break;
+            TriggerScreamer();
+            return;
         }
 
-        UpdateAnimator();
+        Patrol();
+
+        if (animator != null)
+            animator.SetFloat("Speed", agent.velocity.magnitude);
     }
 
     void Patrol()
@@ -115,37 +97,52 @@ public class EnemyChaser : MonoBehaviour
         }
     }
 
-    void Chase()
+    bool CanSeePlayer()
     {
-        agent.isStopped = false;
-        agent.speed = chaseSpeed;
-        agent.SetDestination(player.position);
-    }
+        Vector3 toPlayer = player.position - transform.position;
+        float distance = toPlayer.magnitude;
 
-    void Attack()
-    {
-        agent.isStopped = true;
+        if (distance > detectionRadius)
+            return false;
 
-        Vector3 lookPos = new Vector3(player.position.x, transform.position.y, player.position.z);
-        transform.LookAt(lookPos);
+        float angle = Vector3.Angle(transform.forward, toPlayer);
+        if (angle > fieldOfViewAngle)
+            return false;
 
-        if (attackTimer <= 0f)
+        if (Physics.Raycast(
+            transform.position + Vector3.up,
+            toPlayer.normalized,
+            out RaycastHit hit,
+            distance,
+            obstacleMask))
         {
-            attackTimer = attackCooldown;
-
-            if (animator != null)
-                animator.SetTrigger("Attack");
-
-            if (playerHealth != null)
-                playerHealth.TakeDamage(attackDamage);
+            return false;
         }
+
+        return true;
     }
 
-    void UpdateAnimator()
+    void TriggerScreamer()
     {
-        if (animator == null) return;
+        gameEnded = true;
 
-        float speed = agent.velocity.magnitude;
-        animator.SetFloat("Speed", speed);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        if (agent != null)
+            agent.isStopped = true;
+
+        if (animator != null)
+            animator.SetFloat("Speed", 0f);
+
+        if (screamerPanel != null)
+            screamerPanel.SetActive(true);
+
+        if (screamerSound != null)
+            screamerSound.Play();
+
+        Time.timeScale = 1f;
+
+        Debug.Log("Монстр увидел игрока. Проигрыш.");
     }
 }
