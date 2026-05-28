@@ -1,12 +1,23 @@
 using UnityEngine;
+using SandEscapes.Crafting;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Crafting")]
+    [SerializeField] private CraftingUI craftingUI;
+
     [Header("Movement")]
     public float walkSpeed = 5f;
     public float runSpeed = 9f;
     public float gravity = -20f;
     public float jumpHeight = 2f;
+
+    [Header("Water Movement")]
+    public float waterWalkSpeed = 3f;
+    public float waterRunSpeed = 5f;
+    public float waterGravity = -5f;
+    public float swimUpSpeed = 4f;
+    public float swimDownSpeed = 3f;
 
     [Header("Jump")]
     public float coyoteTime = 0.15f;
@@ -33,18 +44,12 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
     private Vector3 velocity;
 
-    private void Reset()
-    {
-        controller = GetComponent<CharacterController>();
-        animator = GetComponentInChildren<Animator>();
-    }
+    private bool isInWater;
 
     private void Start()
     {
-        if (controller == null)
-            controller = GetComponent<CharacterController>();
-        if (animator == null)
-            animator = GetComponentInChildren<Animator>();
+        controller = GetComponent<CharacterController>();
+        animator = GetComponentInChildren<Animator>();
 
         speedParamHash = Animator.StringToHash(speedParam);
         movingParamHash = Animator.StringToHash(movingParam);
@@ -57,26 +62,50 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.C))
+            craftingUI?.Toggle();
+
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        float speed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed;
+        float speed = Input.GetKey(KeyCode.LeftShift)
+            ? (isInWater ? waterRunSpeed : runSpeed)
+            : (isInWater ? waterWalkSpeed : walkSpeed);
 
         Vector3 move = transform.right * x + transform.forward * z;
-
         move = Vector3.ClampMagnitude(move, 1f);
-        var inputMagnitude = move.magnitude;
-        var wasGrounded = controller.isGrounded;
+
+        float inputMagnitude = move.magnitude;
+
+        bool wasGrounded = controller.isGrounded;
 
         UpdateJumpTimers(wasGrounded);
         TryConsumeJump();
 
-        velocity.y += gravity * Time.deltaTime;
-        var motion = move * speed;
+        float usedGravity = isInWater ? waterGravity : gravity;
+
+        if (isInWater)
+        {
+            if (Input.GetKey(jumpKey))
+                velocity.y = swimUpSpeed;
+            else if (Input.GetKey(KeyCode.LeftControl))
+                velocity.y = -swimDownSpeed;
+            else
+                velocity.y += usedGravity * Time.deltaTime;
+        }
+        else
+        {
+            velocity.y += usedGravity * Time.deltaTime;
+        }
+
+        Vector3 motion = move * speed;
         motion.y = velocity.y;
-        var flags = controller.Move(motion * Time.deltaTime);
-        var isGrounded = (flags & CollisionFlags.Below) != 0;
-        if (isGrounded && velocity.y < 0f)
+
+        CollisionFlags flags = controller.Move(motion * Time.deltaTime);
+
+        bool isGrounded = (flags & CollisionFlags.Below) != 0;
+
+        if (isGrounded && velocity.y < 0f && !isInWater)
             velocity.y = -2f;
 
         UpdateAnimation(inputMagnitude, isGrounded);
@@ -97,34 +126,64 @@ public class PlayerController : MonoBehaviour
 
     private void TryConsumeJump()
     {
-        if (jumpBufferTimer <= 0f)
-            return;
-        if (coyoteTimer <= 0f)
-            return;
+        if (isInWater) return;
+
+        if (jumpBufferTimer <= 0f) return;
+        if (coyoteTimer <= 0f) return;
 
         velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+
         coyoteTimer = 0f;
         jumpBufferTimer = 0f;
+
         if (animator != null)
             animator.SetTrigger(jumpTriggerParamHash);
     }
 
     private void UpdateAnimation(float inputMagnitude, bool isGrounded)
     {
-        if (animator == null)
-            return;
+        if (animator == null) return;
 
         bool isMoving = inputMagnitude > moveInputThreshold;
+
         float targetSpeed = 0f;
+
         if (isMoving)
         {
-            var maxSpeed = Mathf.Max(runSpeed, 0.01f);
-            targetSpeed = Mathf.Clamp01((inputMagnitude * (Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed)) / maxSpeed);
+            float maxSpeed = Mathf.Max(isInWater ? waterRunSpeed : runSpeed, 0.01f);
+            float currentSpeed = Input.GetKey(KeyCode.LeftShift) ?
+                (isInWater ? waterRunSpeed : runSpeed) :
+                (isInWater ? waterWalkSpeed : walkSpeed);
+
+            targetSpeed = Mathf.Clamp01((inputMagnitude * currentSpeed) / maxSpeed);
         }
-        float normalizedSpeed = Mathf.SmoothDamp(animator.GetFloat(speedParamHash), targetSpeed, ref speedDampVelocity, speedDampTime);
+
+        float normalizedSpeed = Mathf.SmoothDamp(
+            animator.GetFloat(speedParamHash),
+            targetSpeed,
+            ref speedDampVelocity,
+            speedDampTime
+        );
 
         animator.SetFloat(speedParamHash, normalizedSpeed);
         animator.SetBool(movingParamHash, isMoving);
-        animator.SetBool(groundedParamHash, isGrounded);
+        animator.SetBool(groundedParamHash, isGrounded && !isInWater);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Water"))
+        {
+            isInWater = true;
+            velocity *= 0.5f;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Water"))
+        {
+            isInWater = false;
+        }
     }
 }
