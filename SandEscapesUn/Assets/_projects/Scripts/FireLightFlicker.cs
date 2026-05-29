@@ -27,4 +27,4 @@ public class FireLightFlicker : MonoBehaviour
 
         fireLight.intensity = Mathf.Lerp(minIntensity, maxIntensity, noise);
     }
-}
+} 
