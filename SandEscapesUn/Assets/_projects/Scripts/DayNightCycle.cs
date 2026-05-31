@@ -1,143 +1,105 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 
-/// <summary>
-/// Day/Night Cycle — Desert Edition
-/// с поддержкой текстур Солнца, Луны и Звёзд
-///
-/// УСТАНОВКА:
-/// 1. GameObject "DayNightManager" → добавь скрипт
-/// 2. Два Directional Light → Sun и Moon
-/// 3. Создай три Quad:
-///    - SunDisc   (дочерний к Sun-свету)
-///    - MoonDisc  (дочерний к Moon-свету)
-///    - StarSphere (большая сфера вокруг сцены, scale ~500)
-/// 4. Назначь их в Inspector + текстуры
-/// </summary>
 [ExecuteAlways]
 public class DayNightCycle : MonoBehaviour
 {
-    // ══════════════════════════════════════════════════════
-    //  ССЫЛКИ — LIGHTS
-    // ══════════════════════════════════════════════════════
     [Header("=== СВЕТ ===")]
     public Light sun;
     public Light moon;
     public ReflectionProbe reflectionProbe;
 
-    // ══════════════════════════════════════════════════════
-    //  ССЫЛКИ — ВИЗУАЛЬНЫЕ ОБЪЕКТЫ
-    // ══════════════════════════════════════════════════════
     [Header("=== ВИЗУАЛЬНЫЕ ОБЪЕКТЫ ===")]
-    [Tooltip("Quad или Plane с текстурой солнца (дочерний к Sun-свету)")]
     public MeshRenderer sunDisc;
-
-    [Tooltip("Quad или Plane с текстурой луны (дочерний к Moon-свету)")]
     public MeshRenderer moonDisc;
-
-    [Tooltip("Сфера вокруг сцены (~scale 500) с текстурой звёзд")]
     public MeshRenderer starSphere;
 
-    // ══════════════════════════════════════════════════════
-    //  ТЕКСТУРЫ
-    // ══════════════════════════════════════════════════════
     [Header("=== ТЕКСТУРЫ ===")]
-    [Tooltip("Текстура солнечного диска (PNG с прозрачностью)")]
     public Texture2D sunTexture;
-
-    [Tooltip("Текстура луны (PNG с прозрачностью)")]
     public Texture2D moonTexture;
-
-    [Tooltip("Текстура звёздного неба (Cubemap или Texture2D-сфера)")]
     public Texture2D starTexture;
 
-    // ══════════════════════════════════════════════════════
-    //  НАСТРОЙКИ СОЛНЕЧНОГО ДИСКА
-    // ══════════════════════════════════════════════════════
     [Header("=== НАСТРОЙКИ СОЛНЦА ===")]
-    [Tooltip("Цвет солнечного диска в полдень")]
     public Color sunDiscDayColor    = new Color(1.00f, 0.95f, 0.70f);
-    [Tooltip("Цвет солнечного диска на закате/рассвете")]
     public Color sunDiscGoldenColor = new Color(1.00f, 0.45f, 0.10f);
-    [Tooltip("Размер солнечного диска (scale Quad)")]
-    public float sunDiscSize = 15f;
-    [Tooltip("Расстояние диска от камеры вдоль направления света")]
+    public float sunDiscSize     = 15f;
     public float sunDiscDistance = 200f;
 
-    // ══════════════════════════════════════════════════════
-    //  НАСТРОЙКИ ЛУННОГО ДИСКА
-    // ══════════════════════════════════════════════════════
     [Header("=== НАСТРОЙКИ ЛУНЫ ===")]
-    [Tooltip("Цвет лунного диска")]
-    public Color moonDiscColor = new Color(0.85f, 0.90f, 1.00f);
-    [Tooltip("Размер лунного диска")]
-    public float moonDiscSize = 12f;
-    [Tooltip("Расстояние диска луны")]
-    public float moonDiscDistance = 200f;
+    public Color moonDiscColor   = new Color(0.85f, 0.90f, 1.00f);
+    public float moonDiscSize    = 12f;
+    public float moonDiscDistance= 200f;
 
-    // ══════════════════════════════════════════════════════
-    //  НАСТРОЙКИ ЗВЁЗД
-    // ══════════════════════════════════════════════════════
     [Header("=== НАСТРОЙКИ ЗВЁЗД ===")]
-    [Tooltip("Цвет звёздного неба")]
-    public Color starColor = new Color(0.80f, 0.85f, 1.00f);
-    [Tooltip("Скорость медленного вращения звёзд (градусов/час)")]
-    public float starRotationSpeed = 1.5f;
+    public Color starColor          = new Color(0.80f, 0.85f, 1.00f);
+    public float starRotationSpeed  = 1.5f;
 
-    // ══════════════════════════════════════════════════════
-    //  ВРЕМЯ
-    // ══════════════════════════════════════════════════════
     [Header("=== ВРЕМЯ ===")]
-    [Range(0f, 24f)]
-    public float currentHour = 8f;
+    [Range(0f, 24f)] public float currentHour = 8f;
     public float dayDuration = 600f;
-    public bool runCycle = true;
+    public bool  runCycle    = true;
 
-    // ══════════════════════════════════════════════════════
-    //  ЦВЕТА СОЛНЕЧНОГО СВЕТА
-    // ══════════════════════════════════════════════════════
     [Header("=== ЦВЕТА СВЕТА ===")]
-    public Color sunriseColor  = new Color(1.00f, 0.55f, 0.20f);
-    public Color noonColor     = new Color(1.00f, 0.97f, 0.85f);
-    public Color sunsetColor   = new Color(1.00f, 0.38f, 0.10f);
+    public Color sunriseColor    = new Color(1.00f, 0.55f, 0.20f);
+    public Color noonColor       = new Color(1.00f, 0.97f, 0.85f);
+    public Color sunsetColor     = new Color(1.00f, 0.38f, 0.10f);
     public float noonIntensity   = 2.8f;
     public float goldenIntensity = 1.2f;
-    [Range(-90f, 90f)]
-    public float sunTiltAngle = 25f;
+    [Range(-90f, 90f)] public float sunTiltAngle  =  25f;
+    public Color moonLightColor  = new Color(0.60f, 0.70f, 1.00f);
+    [Range(0f, 1f)]  public float moonMaxIntensity = 0.12f;
+    [Range(-90f, 90f)] public float moonTiltAngle = -20f;
 
-    public Color moonLightColor   = new Color(0.60f, 0.70f, 1.00f);
-    [Range(0f, 1f)]
-    public float moonMaxIntensity = 0.12f;
-    [Range(-90f, 90f)]
-    public float moonTiltAngle = -20f;
-
-    // ══════════════════════════════════════════════════════
-    //  AMBIENT
-    // ══════════════════════════════════════════════════════
     [Header("=== AMBIENT ===")]
     public Color dayAmbientColor    = new Color(0.95f, 0.82f, 0.55f);
     public Color sunsetAmbientColor = new Color(0.60f, 0.25f, 0.10f);
     public Color moonAmbientColor   = new Color(0.03f, 0.04f, 0.10f);
     public Color nightAmbientColor  = new Color(0.01f, 0.01f, 0.04f);
-    [Range(0f, 2f)]
-    public float ambientIntensity = 1.0f;
+    [Range(0f, 2f)] public float ambientIntensity = 1.0f;
 
-    // ══════════════════════════════════════════════════════
-    //  ТУМАН
-    // ══════════════════════════════════════════════════════
     [Header("=== ТУМАН ===")]
-    public bool controlFog = true;
-    public Color dayFogColor    = new Color(0.98f, 0.90f, 0.70f);
-    public Color sunsetFogColor = new Color(0.80f, 0.35f, 0.15f);
-    public Color nightFogColor  = new Color(0.01f, 0.01f, 0.04f);
+    public bool  controlFog      = true;
+    public Color dayFogColor     = new Color(0.98f, 0.90f, 0.70f);
+    public Color sunsetFogColor  = new Color(0.80f, 0.35f, 0.15f);
+    public Color nightFogColor   = new Color(0.01f, 0.01f, 0.04f);
     public float dayFogDensity   = 0.002f;
     public float nightFogDensity = 0.015f;
 
-    // ══════════════════════════════════════════════════════
-    //  СКАЙБОКС
-    // ══════════════════════════════════════════════════════
     [Header("=== СКАЙБОКС ===")]
     public bool useProceedSkybox = true;
+
+    // ══════════════════════════════════════════════════════
+    //  СВЕТЛЯЧКИ И НОЧНОЙ ТУМАН
+    //  Активны с вечера (~18:00) до утра (~7:00)
+    // ══════════════════════════════════════════════════════
+    [Header("=== СВЕТЛЯЧКИ И НОЧНОЙ ТУМАН ===")]
+
+    [Tooltip("ParticleSystem светлячков — назначь в Inspector")]
+    public ParticleSystem fireflies;
+
+    [Tooltip("Час начала fade-in светлячков (напр. 18 = 18:00)")]
+    [Range(0f, 24f)] public float firefliesFadeInStart  = 18f;
+
+    [Tooltip("Час полной яркости светлячков (напр. 20 = 20:00)")]
+    [Range(0f, 24f)] public float firefliesFadeInEnd    = 20f;
+
+    [Tooltip("Час начала fade-out светлячков утром (напр. 5 = 05:00)")]
+    [Range(0f, 24f)] public float firefliesFadeOutStart = 5f;
+
+    [Tooltip("Час полного исчезновения светлячков (напр. 7 = 07:00)")]
+    [Range(0f, 24f)] public float firefliesFadeOutEnd   = 7f;
+
+    [Tooltip("Максимальное кол-во частиц светлячков в ночное время")]
+    [Min(0)] public int firefliesMaxParticles = 200;
+
+    [Tooltip("Включить отдельный ночной туман поверх обычного")]
+    public bool useNightFog = true;
+
+    [Tooltip("Цвет ночного тумана (синеватый, мистический)")]
+    public Color nightMistColor   = new Color(0.04f, 0.06f, 0.15f);
+
+    [Tooltip("Плотность ночного тумана")]
+    public float nightMistDensity = 0.025f;
 
     // ══════════════════════════════════════════════════════
     //  СОБЫТИЯ
@@ -151,8 +113,6 @@ public class DayNightCycle : MonoBehaviour
     private float    _normalizedTime;
     private Material _skyboxMat;
     private int      _lastHourInt = -1;
-
-    // Материалы дисков (создаются автоматически)
     private Material _sunDiscMat;
     private Material _moonDiscMat;
     private Material _starMat;
@@ -162,7 +122,6 @@ public class DayNightCycle : MonoBehaviour
     {
         _skyboxMat = RenderSettings.skybox;
         if (controlFog) RenderSettings.fog = true;
-
         InitDiscMaterials();
         ApplyAll();
     }
@@ -176,38 +135,6 @@ public class DayNightCycle : MonoBehaviour
         }
         ApplyAll();
         FireHourEvents();
-    }
-
-    // ══════════════════════════════════════════════════════
-    //  ИНИЦИАЛИЗАЦИЯ МАТЕРИАЛОВ
-    //  Создаём Unlit-материалы для дисков — они не зависят
-    //  от освещения сцены и выглядят как HDR-источник
-    // ══════════════════════════════════════════════════════
-    void InitDiscMaterials()
-    {
-        if (sunDisc != null)
-        {
-            _sunDiscMat = new Material(Shader.Find("Unlit/Transparent"));
-            if (sunTexture != null) _sunDiscMat.mainTexture = sunTexture;
-            sunDisc.sharedMaterial = _sunDiscMat;
-            sunDisc.transform.localScale = Vector3.one * sunDiscSize;
-        }
-
-        if (moonDisc != null)
-        {
-            _moonDiscMat = new Material(Shader.Find("Unlit/Transparent"));
-            if (moonTexture != null) _moonDiscMat.mainTexture = moonTexture;
-            moonDisc.sharedMaterial = _moonDiscMat;
-            moonDisc.transform.localScale = Vector3.one * moonDiscSize;
-        }
-
-        if (starSphere != null)
-        {
-            // Unlit/Texture чтобы текстура звёзд была видна как есть
-            _starMat = new Material(Shader.Find("Unlit/Transparent"));
-            if (starTexture != null) _starMat.mainTexture = starTexture;
-            starSphere.sharedMaterial = _starMat;
-        }
     }
 
     // ══════════════════════════════════════════════════════
@@ -230,12 +157,122 @@ public class DayNightCycle : MonoBehaviour
         if (controlFog) ApplyFog();
         if (useProceedSkybox && _skyboxMat != null) ApplySkybox();
 
+        // Светлячки и ночной туман
+        ApplyFireflies();
+        if (useNightFog) ApplyNightAtmosphere();
+
         if (reflectionProbe != null && Application.isPlaying)
             reflectionProbe.RenderProbe();
     }
 
     // ══════════════════════════════════════════════════════
-    //  ВРАЩЕНИЕ
+    //  СВЕТЛЯЧКИ
+    //  Считаем alpha [0..1] по текущему часу:
+    //  18→20 fade in | 20→05 полная яркость | 05→07 fade out
+    // ══════════════════════════════════════════════════════
+    void ApplyFireflies()
+    {
+        if (fireflies == null) return;
+
+        float alpha = GetNightAlpha(
+            firefliesFadeInStart, firefliesFadeInEnd,
+            firefliesFadeOutStart, firefliesFadeOutEnd);
+
+        if (!Application.isPlaying) return; // В Editor не трогаем частицы
+
+        var emission = fireflies.emission;
+        var main     = fireflies.main;
+
+        if (alpha > 0.01f)
+        {
+            if (!fireflies.isPlaying) fireflies.Play();
+            emission.enabled = true;
+            // Плавно меняем кол-во частиц через rateOverTime
+            emission.rateOverTime = Mathf.RoundToInt(firefliesMaxParticles * alpha / 10f);
+
+            // Прозрачность через startColor
+            Color c = main.startColor.color;
+            c.a = alpha;
+            main.startColor = c;
+        }
+        else
+        {
+            emission.enabled = false;
+            if (fireflies.isPlaying) fireflies.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        }
+    }
+
+    // ══════════════════════════════════════════════════════
+    //  НОЧНОЙ ТУМАН (поверх ApplyFog)
+    //  Смешивает ночной цвет/плотность с тем, что уже выставил ApplyFog
+    // ══════════════════════════════════════════════════════
+    void ApplyNightAtmosphere()
+    {
+        if (!controlFog) return;
+
+        float alpha = GetNightAlpha(
+            firefliesFadeInStart, firefliesFadeInEnd,
+            firefliesFadeOutStart, firefliesFadeOutEnd);
+
+        if (alpha <= 0f) return;
+
+        // Принудительно перезаписываем, не lerp поверх
+        RenderSettings.fogColor   = Color.Lerp(RenderSettings.fogColor, nightMistColor, alpha);
+        RenderSettings.fogDensity = Mathf.Lerp(RenderSettings.fogDensity, nightMistDensity, alpha);
+        RenderSettings.fogMode    = FogMode.ExponentialSquared;
+    }
+
+    // ══════════════════════════════════════════════════════
+    //  УТИЛИТА: считает alpha [0..1] для вечерне-ночного окна
+    //  с учётом перехода через полночь (0:00)
+    // ══════════════════════════════════════════════════════
+    float GetNightAlpha(float fadeInStart, float fadeInEnd,
+                        float fadeOutStart, float fadeOutEnd)
+    {
+        float h = currentHour;
+
+        // Вечерний fade-in (18 → 20)
+        if (h >= fadeInStart && h < fadeInEnd)
+            return Mathf.InverseLerp(fadeInStart, fadeInEnd, h);
+
+        // Полная ночь (20 → 24 и 0 → 5)
+        if (h >= fadeInEnd || h < fadeOutStart)
+            return 1f;
+
+        // Утренний fade-out (5 → 7)
+        if (h >= fadeOutStart && h < fadeOutEnd)
+            return 1f - Mathf.InverseLerp(fadeOutStart, fadeOutEnd, h);
+
+        return 0f; // День
+    }
+
+    // ══════════════════════════════════════════════════════
+    //  ИНИЦИАЛИЗАЦИЯ МАТЕРИАЛОВ
+    // ══════════════════════════════════════════════════════
+    void InitDiscMaterials()
+    {
+        if (sunDisc != null)
+        {
+            _sunDiscMat = new Material(Shader.Find("Unlit/Transparent"));
+            if (sunTexture != null) _sunDiscMat.mainTexture = sunTexture;
+            sunDisc.sharedMaterial = _sunDiscMat;
+            sunDisc.transform.localScale = Vector3.one * sunDiscSize;
+        }
+        if (moonDisc != null)
+        {
+            _moonDiscMat = new Material(Shader.Find("Unlit/Transparent"));
+            if (moonTexture != null) _moonDiscMat.mainTexture = moonTexture;
+            moonDisc.sharedMaterial = _moonDiscMat;
+            moonDisc.transform.localScale = Vector3.one * moonDiscSize;
+        }
+        if (starSphere != null)
+        {
+            _starMat = new Material(Shader.Find("Unlit/Transparent"));
+            if (starTexture != null) _starMat.mainTexture = starTexture;
+            starSphere.sharedMaterial = _starMat;
+        }
+    }
+
     // ══════════════════════════════════════════════════════
     void RotateSun()
     {
@@ -254,14 +291,10 @@ public class DayNightCycle : MonoBehaviour
     void RotateStars()
     {
         if (starSphere == null) return;
-        // Медленное вращение сферы звёзд вокруг Y
         float angle = currentHour * starRotationSpeed;
-        starSphere.transform.rotation = Quaternion.Euler(0f, angle, 23.5f); // наклон оси
+        starSphere.transform.rotation = Quaternion.Euler(0f, angle, 23.5f);
     }
 
-    // ══════════════════════════════════════════════════════
-    //  СВЕТ СОЛНЦА
-    // ══════════════════════════════════════════════════════
     void ApplySunLight()
     {
         if (sun == null) return;
@@ -282,19 +315,16 @@ public class DayNightCycle : MonoBehaviour
         }
         else { col = Color.black; intensity = 0f; }
 
-        sun.color = col;
+        sun.color     = col;
         sun.intensity = intensity;
-        sun.enabled = intensity > 0.01f;
-        sun.shadows = intensity > 0.3f ? LightShadows.Soft : LightShadows.None;
+        sun.enabled   = intensity > 0.01f;
+        sun.shadows   = intensity > 0.3f ? LightShadows.Soft : LightShadows.None;
     }
 
-    // ══════════════════════════════════════════════════════
-    //  СВЕТ ЛУНЫ
-    // ══════════════════════════════════════════════════════
     void ApplyMoonLight()
     {
         if (moon == null) return;
-        float moonH   = MoonHeight();
+        float moonH    = MoonHeight();
         float sunBlend = Mathf.Clamp01((-SunHeight() - 0.05f) / 0.15f);
         float intensity = moonH > 0f
             ? moonMaxIntensity * Mathf.Clamp01(moonH / 0.2f) * sunBlend
@@ -306,16 +336,11 @@ public class DayNightCycle : MonoBehaviour
         moon.shadows   = LightShadows.Soft;
     }
 
-    // ══════════════════════════════════════════════════════
-    //  ДИСК СОЛНЦА
-    // ══════════════════════════════════════════════════════
     void UpdateSunDisc()
     {
         if (sunDisc == null || _sunDiscMat == null) return;
-
         float h = SunHeight();
-        float alpha;
-        Color discColor;
+        Color discColor; float alpha;
 
         if (h > 0.1f)
         {
@@ -325,94 +350,55 @@ public class DayNightCycle : MonoBehaviour
         }
         else if (h > -0.05f)
         {
-            float t = Mathf.InverseLerp(-0.05f, 0.1f, h);
             discColor = sunDiscGoldenColor;
-            alpha = t; // плавное появление/исчезновение на горизонте
+            alpha = Mathf.InverseLerp(-0.05f, 0.1f, h);
         }
-        else
-        {
-            discColor = sunDiscGoldenColor;
-            alpha = 0f;
-        }
+        else { discColor = sunDiscGoldenColor; alpha = 0f; }
 
         discColor.a = alpha;
         _sunDiscMat.color = discColor;
         sunDisc.enabled = alpha > 0.01f;
-
-        // Позиционируем диск вдоль направления света (перед камерой)
         PositionDiscAlongLight(sunDisc.transform, sun.transform, sunDiscDistance);
     }
 
-    // ══════════════════════════════════════════════════════
-    //  ДИСК ЛУНЫ
-    // ══════════════════════════════════════════════════════
     void UpdateMoonDisc()
     {
         if (moonDisc == null || _moonDiscMat == null) return;
-
         float moonH    = MoonHeight();
         float sunBlend = Mathf.Clamp01((-SunHeight() - 0.05f) / 0.15f);
         float alpha;
 
         if (moonH > 0.05f)
-        {
             alpha = Mathf.Clamp01(moonH / 0.15f) * sunBlend;
-        }
         else if (moonH > -0.05f)
-        {
             alpha = Mathf.InverseLerp(-0.05f, 0.05f, moonH) * sunBlend;
-        }
-        else { alpha = 0f; }
-
-        Color col = moonDiscColor;
-        col.a = alpha;
-        _moonDiscMat.color = col;
-        moonDisc.enabled = alpha > 0.01f;
-
-        PositionDiscAlongLight(moonDisc.transform, moon.transform, moonDiscDistance);
-    }
-
-    // ══════════════════════════════════════════════════════
-    //  ЗВЁЗДЫ
-    // ══════════════════════════════════════════════════════
-    void UpdateStars()
-    {
-        if (starSphere == null || _starMat == null) return;
-
-        float h = SunHeight();
-
-        // Звёзды видны только ночью, плавное появление/исчезновение
-        float alpha;
-        if (h < -0.1f)
-            alpha = 1f;
-        else if (h < 0.1f)
-            alpha = Mathf.InverseLerp(0.1f, -0.1f, h);
         else
             alpha = 0f;
 
-        Color col = starColor;
-        col.a = alpha;
+        Color col = moonDiscColor; col.a = alpha;
+        _moonDiscMat.color = col;
+        moonDisc.enabled = alpha > 0.01f;
+        PositionDiscAlongLight(moonDisc.transform, moon.transform, moonDiscDistance);
+    }
+
+    void UpdateStars()
+    {
+        if (starSphere == null || _starMat == null) return;
+        float h = SunHeight();
+        float alpha = h < -0.1f ? 1f : h < 0.1f ? Mathf.InverseLerp(0.1f, -0.1f, h) : 0f;
+        Color col = starColor; col.a = alpha;
         _starMat.color = col;
         starSphere.enabled = alpha > 0.01f;
     }
 
-    // ══════════════════════════════════════════════════════
-    //  ВСПОМОГАТЕЛЬНЫЙ: позиционировать диск по направлению света
-    //  Quad должен смотреть на камеру и находиться далеко
-    // ══════════════════════════════════════════════════════
     void PositionDiscAlongLight(Transform disc, Transform lightTransform, float distance)
     {
         if (Camera.main == null) return;
-
-        // Направление света (от солнца к сцене)
         Vector3 dir = -lightTransform.forward;
         disc.position = Camera.main.transform.position + dir * distance;
         disc.LookAt(Camera.main.transform.position);
     }
 
-    // ══════════════════════════════════════════════════════
-    //  AMBIENT
-    // ══════════════════════════════════════════════════════
     void ApplyAmbient()
     {
         float sunH = SunHeight(); float moonH = MoonHeight();
@@ -431,9 +417,6 @@ public class DayNightCycle : MonoBehaviour
         RenderSettings.ambientMode  = AmbientMode.Flat;
     }
 
-    // ══════════════════════════════════════════════════════
-    //  ТУМАН
-    // ══════════════════════════════════════════════════════
     void ApplyFog()
     {
         float t01 = Mathf.Clamp01((SunHeight() + 1f) * 0.5f);
@@ -442,13 +425,13 @@ public class DayNightCycle : MonoBehaviour
         if (t01 > 0.6f)
         {
             float t = Mathf.InverseLerp(0.6f, 1f, t01);
-            fogColor = Color.Lerp(sunsetFogColor, dayFogColor, t);
+            fogColor   = Color.Lerp(sunsetFogColor, dayFogColor, t);
             fogDensity = Mathf.Lerp(nightFogDensity, dayFogDensity, t);
         }
         else if (t01 > 0.2f)
         {
             float t = Mathf.InverseLerp(0.2f, 0.6f, t01);
-            fogColor = Color.Lerp(nightFogColor, sunsetFogColor, t);
+            fogColor   = Color.Lerp(nightFogColor, sunsetFogColor, t);
             fogDensity = Mathf.Lerp(nightFogDensity, dayFogDensity * 2f, t);
         }
         else { fogColor = nightFogColor; fogDensity = nightFogDensity; }
@@ -458,9 +441,6 @@ public class DayNightCycle : MonoBehaviour
         RenderSettings.fogMode    = FogMode.ExponentialSquared;
     }
 
-    // ══════════════════════════════════════════════════════
-    //  СКАЙБОКС
-    // ══════════════════════════════════════════════════════
     void ApplySkybox()
     {
         if (_skyboxMat == null) return;
@@ -479,15 +459,9 @@ public class DayNightCycle : MonoBehaviour
         DynamicGI.UpdateEnvironment();
     }
 
-    // ══════════════════════════════════════════════════════
-    //  ВЫСОТА НАД ГОРИЗОНТОМ
-    // ══════════════════════════════════════════════════════
     float SunHeight()  => Mathf.Sin(_normalizedTime * Mathf.PI * 2f - Mathf.PI * 0.5f);
     float MoonHeight() => Mathf.Sin((_normalizedTime + 0.5f) * Mathf.PI * 2f - Mathf.PI * 0.5f);
 
-    // ══════════════════════════════════════════════════════
-    //  СОБЫТИЯ
-    // ══════════════════════════════════════════════════════
     void FireHourEvents()
     {
         int h = Mathf.FloorToInt(currentHour);
@@ -502,30 +476,24 @@ public class DayNightCycle : MonoBehaviour
         }
     }
 
-    // ══════════════════════════════════════════════════════
-    //  ПУБЛИЧНЫЕ УТИЛИТЫ
-    // ══════════════════════════════════════════════════════
     public float GetNormalizedTime() => _normalizedTime;
-    public bool IsDay()    => SunHeight() > 0f;
-    public bool IsNight()  => !IsDay();
-    public bool IsMoonUp() => MoonHeight() > 0f;
-    public void SetTime(float hour) => currentHour = Mathf.Repeat(hour, 24f);
+    public bool  IsDay()    => SunHeight() > 0f;
+    public bool  IsNight()  => !IsDay();
+    public bool  IsMoonUp() => MoonHeight() > 0f;
+    public void  SetTime(float hour) => currentHour = Mathf.Repeat(hour, 24f);
 
-    /// <summary>Заменить текстуру солнца в рантайме</summary>
     public void SetSunTexture(Texture2D tex)
     {
         sunTexture = tex;
         if (_sunDiscMat != null) _sunDiscMat.mainTexture = tex;
     }
 
-    /// <summary>Заменить текстуру луны в рантайме</summary>
     public void SetMoonTexture(Texture2D tex)
     {
         moonTexture = tex;
         if (_moonDiscMat != null) _moonDiscMat.mainTexture = tex;
     }
 
-    /// <summary>Заменить текстуру звёзд в рантайме</summary>
     public void SetStarTexture(Texture2D tex)
     {
         starTexture = tex;
