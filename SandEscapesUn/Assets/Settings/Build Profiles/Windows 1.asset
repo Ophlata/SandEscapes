@@ -26,8 +26,6 @@ MonoBehaviour:
     m_path: Assets/Scenes/TestMechanics.unity
   - m_enabled: 1
     m_path: Assets/Scenes/Game.unity
-  - m_enabled: 1
-    m_path: Assets/Scenes/dungeon.unity
   m_HasScriptingDefines: 0
   m_ScriptingDefines: []
   m_PlayerSettingsYaml:
