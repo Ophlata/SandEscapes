@@ -34,16 +34,34 @@ namespace SandEscapes.Items
             pickup.Initialize(item, amount);
             pickup.enabled = true;
 
-            foreach (var col in instance.GetComponentsInChildren<Collider>())
+            var colliders = instance.GetComponentsInChildren<Collider>(true);
+            var hasSolidCollider = false;
+            for (var i = 0; i < colliders.Length; i++)
+            {
+                var col = colliders[i];
+                if (col == null)
+                    continue;
                 col.enabled = true;
+                col.isTrigger = false;
+                hasSolidCollider = true;
+            }
+
+            if (!hasSolidCollider)
+            {
+                var fallbackCollider = instance.AddComponent<BoxCollider>();
+                fallbackCollider.isTrigger = false;
+            }
 
             var rb = instance.GetComponent<Rigidbody>();
             if (rb == null)
                 rb = instance.AddComponent<Rigidbody>();
             rb.isKinematic = false;
-            rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+            rb.useGravity = true;
+            rb.detectCollisions = true;
+            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             rb.interpolation = RigidbodyInterpolation.Interpolate;
             rb.linearVelocity = initialVelocity;
+            rb.angularVelocity = Vector3.zero;
 
             return instance;
         }
