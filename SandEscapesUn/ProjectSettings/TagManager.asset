@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Water
+  - CityLight
   layers:
   - Default
   - TransparentFX
