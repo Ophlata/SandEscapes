@@ -126,7 +126,16 @@ public class PlayerController : MonoBehaviour
 
     private void TryConsumeJump()
     {
-        if (isInWater) return;
+        if (Physics.Raycast(transform.position + Vector3.up * 0.2f,
+                Vector3.down,
+                out RaycastHit hit,
+                1.5f))
+        {
+            float angle = Vector3.Angle(hit.normal, Vector3.up);
+
+            if (angle > 45f)
+                return;
+        }   if (isInWater) return;
 
         if (jumpBufferTimer <= 0f) return;
         if (coyoteTimer <= 0f) return;
