@@ -3,6 +3,7 @@ using SandEscapes.Interaction;
 
 namespace SandEscapes
 {
+    [RequireComponent(typeof(AudioSource))]
     public class LeverLightSwitch : MonoBehaviour, IInteractable, IInteractablePromptProvider
     {
         [Header("Свет города")]
@@ -24,18 +25,32 @@ namespace SandEscapes
         [Header("Резервный клик мышкой (можно оставить или выключить)")]
         [SerializeField] private bool allowMouseClick = true;
 
+        [Header("Звук рычага")]
+        [SerializeField] private AudioClip leverSound;
+        [SerializeField] [Range(0f, 1f)] private float leverSoundVolume = 1f;
+
         private bool isActivated = false;
         private Quaternion targetRotation;
+        private AudioSource audioSource;
 
         void Awake()
         {
             if (leverHandle == null)
                 leverHandle = transform;
+
+            audioSource = GetComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+            audioSource.spatialBlend = 0f; // 2D-звук, чтобы не зависеть от позиции слушателя
         }
 
         void Start()
         {
             targetRotation = Quaternion.Euler(rotationDefault);
+
+            // Свет по умолчанию выключен, независимо от состояния в сцене
+            isActivated = false;
+            ToggleCityLights(false);
+            ToggleWindows(false);
         }
 
         void Update()
@@ -53,7 +68,6 @@ namespace SandEscapes
             ToggleLever();
         }
 
-        // Текст подсказки внизу экрана — меняется в зависимости от состояния
         public string GetPromptText()
         {
             return isActivated ? promptTextOn : promptTextOff;
@@ -66,6 +80,23 @@ namespace SandEscapes
 
             ToggleCityLights(isActivated);
             ToggleWindows(isActivated);
+            PlayLeverSound();
+        }
+
+        private void PlayLeverSound()
+        {
+            if (leverSound == null)
+            {
+                Debug.LogWarning("[LeverLightSwitch] Lever Sound не назначен в инспекторе.");
+                return;
+            }
+
+            audioSource.clip = leverSound;
+            audioSource.volume = leverSoundVolume;
+            audioSource.loop = false;
+            audioSource.Play();
+
+            Debug.Log("[LeverLightSwitch] Звук должен был проиграться: " + leverSound.name);
         }
 
         private void ToggleCityLights(bool state)
@@ -93,7 +124,6 @@ namespace SandEscapes
             }
         }
 
-        // Резервный клик мышкой — оставлен, чтобы работало и так, и через E
         void OnMouseDown()
         {
             if (allowMouseClick)
