@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Water
   - CityLight
+  - CityWindow
   layers:
   - Default
   - TransparentFX
