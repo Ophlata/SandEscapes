@@ -12,6 +12,11 @@ namespace SandEscapes
         [SerializeField] private Material glowMaterial;
         [SerializeField] private Material normalMaterial;
 
+        [Header("Материал здания (один конкретный объект)")]
+        [SerializeField] private Renderer buildingRenderer;
+        [SerializeField] private Material buildingGlowMaterial;
+        [SerializeField] private Material buildingNormalMaterial;
+
         [Header("Анимация рычага")]
         [SerializeField] private Transform leverHandle;
         [SerializeField] private Vector3 rotationActivated = new Vector3(40f, 0f, 0f);
@@ -40,17 +45,17 @@ namespace SandEscapes
 
             audioSource = GetComponent<AudioSource>();
             audioSource.playOnAwake = false;
-            audioSource.spatialBlend = 0f; // 2D-звук, чтобы не зависеть от позиции слушателя
+            audioSource.spatialBlend = 0f;
         }
 
         void Start()
         {
             targetRotation = Quaternion.Euler(rotationDefault);
 
-            // Свет по умолчанию выключен, независимо от состояния в сцене
             isActivated = false;
             ToggleCityLights(false);
             ToggleWindows(false);
+            ToggleBuildingMaterial(false);
         }
 
         void Update()
@@ -62,7 +67,6 @@ namespace SandEscapes
             );
         }
 
-        // Вызывается системой взаимодействия по E
         public void OnInteract(GameObject interactor)
         {
             ToggleLever();
@@ -78,29 +82,28 @@ namespace SandEscapes
             isActivated = !isActivated;
             targetRotation = Quaternion.Euler(isActivated ? rotationActivated : rotationDefault);
 
+            PlayLeverSound();
             ToggleCityLights(isActivated);
             ToggleWindows(isActivated);
-            PlayLeverSound();
+            ToggleBuildingMaterial(isActivated);
         }
 
         private void PlayLeverSound()
         {
-            if (leverSound == null)
-            {
-                Debug.LogWarning("[LeverLightSwitch] Lever Sound не назначен в инспекторе.");
+            if (leverSound == null || audioSource == null)
                 return;
-            }
 
             audioSource.clip = leverSound;
             audioSource.volume = leverSoundVolume;
             audioSource.loop = false;
             audioSource.Play();
-
-            Debug.Log("[LeverLightSwitch] Звук должен был проиграться: " + leverSound.name);
         }
 
         private void ToggleCityLights(bool state)
         {
+            if (string.IsNullOrEmpty(lightTag) || !TagExists(lightTag))
+                return;
+
             GameObject[] lights = GameObject.FindGameObjectsWithTag(lightTag);
             foreach (GameObject obj in lights)
             {
@@ -112,6 +115,9 @@ namespace SandEscapes
 
         private void ToggleWindows(bool state)
         {
+            if (string.IsNullOrEmpty(windowTag) || !TagExists(windowTag))
+                return;
+
             GameObject[] windows = GameObject.FindGameObjectsWithTag(windowTag);
             Material targetMat = state ? glowMaterial : normalMaterial;
             if (targetMat == null) return;
@@ -121,6 +127,28 @@ namespace SandEscapes
                 Renderer rend = obj.GetComponent<Renderer>();
                 if (rend != null)
                     rend.material = targetMat;
+            }
+        }
+
+        private void ToggleBuildingMaterial(bool state)
+        {
+            if (buildingRenderer == null) return;
+
+            Material targetMat = state ? buildingGlowMaterial : buildingNormalMaterial;
+            if (targetMat != null)
+                buildingRenderer.material = targetMat;
+        }
+
+        private bool TagExists(string tag)
+        {
+            try
+            {
+                GameObject.FindGameObjectsWithTag(tag);
+                return true;
+            }
+            catch (UnityException)
+            {
+                return false;
             }
         }
 
