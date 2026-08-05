@@ -239,7 +239,19 @@ namespace SandEscapes.Survival
             _health = Mathf.Clamp(_health + amount * health.restoreRate, 0f, health.maxValue);
             OnStatsChanged?.Invoke();
         }
+        public void TakeDamage(float damage)
+        {
+            if (_dead)
+                return;
 
+            _health -= damage;
+            _health = Mathf.Clamp(_health, 0f, health.maxValue);
+
+            OnStatsChanged?.Invoke();
+
+            if (_health <= 0f)
+                CheckDeath();
+        }
         public void SetAmbientStressTarget(float target)
         {
             exposure.ambientStressTarget = Mathf.Clamp(target, 0f, exposure.maxStress);
