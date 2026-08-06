@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using SandEscapes.Interaction;
 using SandEscapes.Inventory;
@@ -21,6 +22,11 @@ namespace SandEscapes
         [SerializeField] private string lockedPrompt = "Дверь заперта";
         [SerializeField] private AudioClip lockedSound;
 
+        [Header("Locked Animation")]
+        [SerializeField] private float shakeDuration = 0.25f;
+        [SerializeField] private float shakeAngle = 6f;
+        [SerializeField] private float pushDistance = 0.03f;
+
         [Header("Prompt")]
         [SerializeField] private string promptClosed = "E - Открыть дверь";
         [SerializeField] private string promptOpen = "E - Закрыть дверь";
@@ -28,15 +34,18 @@ namespace SandEscapes
         [Header("Sound")]
         [SerializeField] private AudioClip openSound;
         [SerializeField] private AudioClip closeSound;
-        [SerializeField][Range(0f, 1f)] private float volume = 1f;
+        [SerializeField] [Range(0f,1f)] private float volume = 1f;
 
         private AudioSource audioSource;
 
         private bool isOpen;
         private bool unlocked;
+        private bool shaking;
 
         private float currentAngle;
         private float targetAngle;
+
+        private Vector3 originalLocalPos;
 
         void Awake()
         {
@@ -53,13 +62,19 @@ namespace SandEscapes
         {
             currentAngle = closedAngle;
             targetAngle = closedAngle;
+
+            originalLocalPos = doorHinge.localPosition;
+
             ApplyRotation();
         }
 
         void Update()
         {
-            currentAngle = Mathf.Lerp(currentAngle, targetAngle, Time.deltaTime * openSpeed);
-            ApplyRotation();
+            if (!shaking)
+            {
+                currentAngle = Mathf.Lerp(currentAngle, targetAngle, Time.deltaTime * openSpeed);
+                ApplyRotation();
+            }
         }
 
         void ApplyRotation()
@@ -81,6 +96,9 @@ namespace SandEscapes
                 {
                     if (lockedSound != null)
                         audioSource.PlayOneShot(lockedSound, volume);
+
+                    if (!shaking)
+                        StartCoroutine(LockedShake());
 
                     return;
                 }
@@ -106,6 +124,40 @@ namespace SandEscapes
                 return lockedPrompt;
 
             return isOpen ? promptOpen : promptClosed;
+        }
+
+        IEnumerator LockedShake()
+        {
+            shaking = true;
+
+            float timer = 0f;
+
+            while (timer < shakeDuration)
+            {
+                timer += Time.deltaTime;
+
+                float k = Mathf.Sin(timer * 35f);
+
+                currentAngle = closedAngle - k * shakeAngle;
+
+                doorHinge.localPosition =
+                    originalLocalPos
+                    - doorHinge.forward * (Mathf.Abs(k) * pushDistance)
+                    + doorHinge.right * (k * pushDistance * 0.35f);
+
+                ApplyRotation();
+
+                yield return null;
+            }
+
+            currentAngle = closedAngle;
+            targetAngle = closedAngle;
+
+            doorHinge.localPosition = originalLocalPos;
+
+            ApplyRotation();
+
+            shaking = false;
         }
     }
 }
