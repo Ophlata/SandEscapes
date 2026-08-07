@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 
 public class QuestManager : MonoBehaviour
 {
@@ -30,7 +29,8 @@ public class QuestManager : MonoBehaviour
         Collect,
         Drink,
         ReachPoint,
-        KillEnemy
+        KillEnemy,
+        Interact
     }
 
     public Quest[] quests;
@@ -79,6 +79,12 @@ public class QuestManager : MonoBehaviour
         UpdateUI();
     }
 
+    // Для квестов взаимодействия
+    public void Interact(string id)
+    {
+        AddProgress(id);
+    }
+
     void CompleteQuest()
     {
         Quest quest = quests[currentQuestIndex];
@@ -87,15 +93,12 @@ public class QuestManager : MonoBehaviour
 
         Debug.Log("Квест выполнен: " + quest.questName);
 
-        if (audioSource && completeSound)
-        {
+        if (audioSource != null && completeSound != null)
             audioSource.PlayOneShot(completeSound);
-        }
 
-        if (completedMark)
+        if (completedMark != null)
         {
             completedMark.SetActive(true);
-
             Invoke(nameof(HideMark), 2f);
         }
 
@@ -106,7 +109,8 @@ public class QuestManager : MonoBehaviour
 
     void HideMark()
     {
-        completedMark.SetActive(false);
+        if (completedMark != null)
+            completedMark.SetActive(false);
     }
 
     void UpdateUI()
@@ -121,8 +125,6 @@ public class QuestManager : MonoBehaviour
         Quest quest = quests[currentQuestIndex];
 
         questText.text = quest.questName;
-
-        progressText.text =
-            quest.currentAmount + " / " + quest.requiredAmount;
+        progressText.text = quest.currentAmount + " / " + quest.requiredAmount;
     }
 }
