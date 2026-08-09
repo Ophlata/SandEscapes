@@ -11856,8 +11856,8 @@ MonoBehaviour:
   glowMaterial: {fileID: 0}
   normalMaterial: {fileID: 0}
   buildingRenderer: {fileID: 1516939900}
-  buildingGlowMaterial: {fileID: 2100000, guid: b52c561c7374c8e4aafd2323d15feb37, type: 2}
-  buildingNormalMaterial: {fileID: 2100000, guid: 74636fb0a72e87c49b6322d9e47d0a60, type: 2}
+  buildingGlowMaterial: {fileID: 0}
+  buildingNormalMaterial: {fileID: 0}
   leverHandle: {fileID: 326290903}
   rotationActivated: {x: 40, y: 0, z: 0}
   rotationDefault: {x: 0, y: 0, z: 0}
@@ -30440,6 +30440,38 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66bde8357cf70b949907612cf2898628, type: 3}
+--- !u!21 &773534028
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Unlit/Transparent
+  m_Shader: {fileID: 10750, guid: 0000000000000000f000000000000000, type: 0}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: fd76aa9968fc9814ea1754d5a7e4fe65, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1001 &774763890
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40432,7 +40464,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1723933430}
+  - {fileID: 773534028}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -40494,7 +40526,7 @@ Transform:
   m_GameObject: {fileID: 997871507}
   serializedVersion: 2
   m_LocalRotation: {x: 0.25166786, y: -0.22549087, z: 0.060420103, w: 0.93923724}
-  m_LocalPosition: {x: 173.97932, y: 110.251015, z: -12.686356}
+  m_LocalPosition: {x: 298.83148, y: 120.860016, z: -60.948967}
   m_LocalScale: {x: 15, y: 15, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -62106,37 +62138,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1409653397}
   m_SourcePrefab: {fileID: 100100000, guid: 92c4ca242f326b0409329a7b48f60ba7, type: 3}
---- !u!1 &1587702464
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1587702465}
-  m_Layer: 0
-  m_Name: spawnpointdoor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1587702465
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1587702464}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 80.83075, y: 7.3444, z: 147.04846}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1590382162 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 92c4ca242f326b0409329a7b48f60ba7, type: 3}
@@ -67781,38 +67782,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3906158537582329381, guid: b897b91def57a2940a0f0042d364c50d, type: 3}
   m_PrefabInstance: {fileID: 935985166}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &1723933430
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Unlit/Transparent
-  m_Shader: {fileID: 10750, guid: 0000000000000000f000000000000000, type: 0}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: fd76aa9968fc9814ea1754d5a7e4fe65, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1001 &1724141751
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -109694,9 +109663,14 @@ MonoBehaviour:
   controller: {fileID: 3205749234573311793}
   footstepLoop: {fileID: 8300000, guid: d6bf1ee7a9a895e4aa6ad5f1106e9b76, type: 3}
   minInput: 0.1
-  minPitch: 0.8
-  maxPitch: 1.8
+  footstepVolume: 0.37
+  fadeInSpeed: 4
+  fadeOutSpeed: 5
+  stepSoundSpeed: 0.79
+  walkPitch: 0.79
+  runPitch: 1.65
   maxSpeed: 7
+  stopAfterFadeOut: 1
 --- !u!23 &2256973730118422119
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -126315,7 +126289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SandEscapes.UI.PlayerStatsHudView
-  theme: {fileID: 0}
+  theme: {fileID: 11400000, guid: a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2, type: 2}
   stats: {fileID: 1738449737123025000}
   hungerFill: {fileID: 0}
   thirstFill: {fileID: 0}
@@ -126323,14 +126297,14 @@ MonoBehaviour:
   healthFill: {fileID: 0}
   statBarTrackOverride: {fileID: 0}
   statBarFillOverride: {fileID: 0}
-  statIconHungerOverride: {fileID: 0}
-  statIconThirstOverride: {fileID: 0}
-  statIconSanityOverride: {fileID: 0}
-  statIconHealthOverride: {fileID: 0}
+  statIconHungerOverride: {fileID: 21300000, guid: fe50cfcec7325dc4ba9370326626012e, type: 3}
+  statIconThirstOverride: {fileID: 21300000, guid: 92208613963fae64fb8b4530a7839ae6, type: 3}
+  statIconSanityOverride: {fileID: 21300000, guid: 56c199056e0c2e84991d24d53dbcde5b, type: 3}
+  statIconHealthOverride: {fileID: 21300000, guid: ad1b0612cac7c10489a586ceff156d3e, type: 3}
   statLabelFontOverride: {fileID: 0}
   showStatTextLabels: 1
   barSize: {x: 220, y: 18}
-  iconColumnWidth: 32
+  iconColumnWidth: 320
   rowSpacing: 6
   screenPadding: {x: 24, y: 24}
   sortOrder: 95
@@ -154325,15 +154299,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3311629580028620481}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.8478972, z: -0, w: -0.5301608}
-  m_LocalPosition: {x: 95.5, y: 9.83, z: 141.71}
+  m_LocalRotation: {x: -0, y: 0.98741746, z: -0, w: 0.15813525}
+  m_LocalPosition: {x: 220.15, y: 20.439, z: 93.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3605051387465530955}
   - {fileID: 1777939718}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -475.967, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -558.197, z: 0}
 --- !u!114 &6691840191727911313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183917,7 +183891,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.686
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -184882,7 +184856,6 @@ SceneRoots:
   - {fileID: 406287966}
   - {fileID: 885255010}
   - {fileID: 1358902497}
-  - {fileID: 1587702465}
   - {fileID: 367512054}
   - {fileID: 347369909}
   - {fileID: 1142337257}
