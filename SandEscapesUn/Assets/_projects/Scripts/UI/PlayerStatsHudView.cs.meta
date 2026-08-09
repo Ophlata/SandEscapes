@@ -3,7 +3,20 @@ guid: b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - theme: {instanceID: 0}
+  - stats: {instanceID: 0}
+  - hungerFill: {instanceID: 0}
+  - thirstFill: {instanceID: 0}
+  - sanityFill: {instanceID: 0}
+  - healthFill: {instanceID: 0}
+  - statBarTrackOverride: {instanceID: 0}
+  - statBarFillOverride: {instanceID: 0}
+  - statIconHungerOverride: {instanceID: 0}
+  - statIconThirstOverride: {instanceID: 0}
+  - statIconSanityOverride: {instanceID: 0}
+  - statIconHealthOverride: {fileID: 21300000, guid: ad1b0612cac7c10489a586ceff156d3e, type: 3}
+  - statLabelFontOverride: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
