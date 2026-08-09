@@ -29299,7 +29299,7 @@ Transform:
   m_GameObject: {fileID: 384792149}
   serializedVersion: 2
   m_LocalRotation: {x: -0.68654794, y: -0.7024429, z: -0.005301246, w: 0.18761101}
-  m_LocalPosition: {x: 314.607, y: 20.51, z: -22.938}
+  m_LocalPosition: {x: 314.457, y: 19.995, z: -22.846}
   m_LocalScale: {x: 1.18161, y: 0.85156995, z: 0.99505997}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -35397,6 +35397,38 @@ MonoBehaviour:
   backgroundColor: {r: 0, g: 0, b: 0, a: 0.6}
   sortingOrder: 95
   previewInEditor: 0
+--- !u!21 &469394262
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Unlit/Transparent
+  m_Shader: {fileID: 10750, guid: 0000000000000000f000000000000000, type: 0}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: fd76aa9968fc9814ea1754d5a7e4fe65, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &469826199
 GameObject:
   m_ObjectHideFlags: 0
@@ -69711,7 +69743,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1966499767}
+  - {fileID: 469394262}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -78209,16 +78241,28 @@ PrefabInstance:
       value: FireBall_Mobile
       objectReference: {fileID: 0}
     - target: {fileID: 4868107216029002, guid: 467cd1946a21a48419880914116ce12b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.0619
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868107216029002, guid: 467cd1946a21a48419880914116ce12b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.0619
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868107216029002, guid: 467cd1946a21a48419880914116ce12b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.0619
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868107216029002, guid: 467cd1946a21a48419880914116ce12b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 314.344
+      value: 314.464
       objectReference: {fileID: 0}
     - target: {fileID: 4868107216029002, guid: 467cd1946a21a48419880914116ce12b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 20.273
+      value: 20.113
       objectReference: {fileID: 0}
     - target: {fileID: 4868107216029002, guid: 467cd1946a21a48419880914116ce12b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -23.176
+      value: -22.954
       objectReference: {fileID: 0}
     - target: {fileID: 4868107216029002, guid: 467cd1946a21a48419880914116ce12b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -143817,15 +143861,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4988909367119950, guid: e58a55b2514575f4cb70754397301b36, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 314.596
+      value: 314.738
       objectReference: {fileID: 0}
     - target: {fileID: 4988909367119950, guid: e58a55b2514575f4cb70754397301b36, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 20.569
+      value: 20.362
       objectReference: {fileID: 0}
     - target: {fileID: 4988909367119950, guid: e58a55b2514575f4cb70754397301b36, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -22.939
+      value: -23.01
       objectReference: {fileID: 0}
     - target: {fileID: 4988909367119950, guid: e58a55b2514575f4cb70754397301b36, type: 3}
       propertyPath: m_LocalRotation.w
@@ -150660,38 +150704,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1966078024}
   m_Mesh: {fileID: -3329902420748629119, guid: bba95dfc958cecc44ad0fee0d146287d, type: 3}
---- !u!21 &1966499767
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Unlit/Transparent
-  m_Shader: {fileID: 10750, guid: 0000000000000000f000000000000000, type: 0}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: fd76aa9968fc9814ea1754d5a7e4fe65, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1001 &1968041211
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -165354,7 +165366,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 95fe7514251637249899d9f4b0c7c54e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 19.672
+      value: 19.399
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 95fe7514251637249899d9f4b0c7c54e, type: 3}
       propertyPath: m_LocalPosition.z
