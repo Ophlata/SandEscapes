@@ -15,7 +15,7 @@ MonoImporter:
   - statIconHungerOverride: {instanceID: 0}
   - statIconThirstOverride: {instanceID: 0}
   - statIconSanityOverride: {instanceID: 0}
-  - statIconHealthOverride: {fileID: 21300000, guid: ad1b0612cac7c10489a586ceff156d3e, type: 3}
+  - statIconHealthOverride: {instanceID: 0}
   - statLabelFontOverride: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
