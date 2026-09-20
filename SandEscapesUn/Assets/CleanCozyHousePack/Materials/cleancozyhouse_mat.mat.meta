@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: da1a0bb96e519493b983329fe97335ad
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 396732
+  packageName: Clean & Cozy Modular Home Pack
+  packageVersion: 1.0
+  assetPath: Assets/CleanCozyHousePack/Materials/cleancozyhouse_mat.mat
+  uploadId: 964706
